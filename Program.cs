@@ -17,7 +17,7 @@ namespace XmlToSlateMD
 
         static BaseDoc CurrentMethod;
 
-		static BaseDoc PreviousDoc;
+        static BaseDoc PreviousDoc;
 
         public static void Main(string[] args)
         {
@@ -48,7 +48,7 @@ namespace XmlToSlateMD
                                         break;
 										
                                     case "name":
-										xml.Read();
+                                        xml.Read();
                                         CurrentAssembly.Name = xml.Value;
                                         break;
 										
@@ -71,7 +71,9 @@ namespace XmlToSlateMD
 
                                                 if (memberName.Contains("#ctor")) {
                                                     CurrentDoc = new ConstructorDoc(CurrentType as TypeDoc);
-                                                    CurrentDoc.Name = memberName.Replace("#ctor", Regex.Match(memberName, ".([A-z]+).#").Groups[1].Value).Substring(2);
+                                                    CurrentDoc.Name = memberName.Replace("#ctor",
+                                                                                         Regex.Match(memberName,
+                                                                                                              ".([A-z]+).#").Groups[1].Value).Substring(2);
                                                 } else {
                                                     CurrentDoc = new MethodDoc(CurrentType as TypeDoc);
                                                 }
@@ -83,15 +85,18 @@ namespace XmlToSlateMD
                                         break;
 
                                     case "summary":
-										xml.Read();
+                                        xml.Read();
                                         PreviousDoc.SetFieldValue("Summary", xml.Value);
 
-                                         break;
+                                        break;
 										
                                     case "param":
                                         string name = xml["name"];
-										xml.Read();
-                                        CurrentDoc = new ParameterDoc(CurrentMethod) { Name = name, Summary = xml.Value };
+                                        xml.Read();
+                                        CurrentDoc = new ParameterDoc(CurrentMethod) {
+                                            Name = name,
+                                            Summary = xml.Value
+                                        };
                                         break;
 										
                                     case "csharp":
@@ -100,14 +105,14 @@ namespace XmlToSlateMD
                                     case "lua":
                                         if (PreviousDoc is TypeDoc) {
                                             var cdoc = PreviousDoc as TypeDoc;
-											var lang = xml.Name;
-											xml.Read();
+                                            var lang = xml.Name;
+                                            xml.Read();
 
-											cdoc.CodeExamples.Add(new CodeExample {
-												Code = xml.Value,
-												Language = (Language)Enum.Parse(typeof(Language), lang)
-											});
-										}
+                                            cdoc.CodeExamples.Add(new CodeExample {
+                                                Code = xml.Value,
+                                                Language = (Language)Enum.Parse(typeof(Language), lang)
+                                            });
+                                        }
                                         break;
 										
                                     case "v":
@@ -121,7 +126,7 @@ namespace XmlToSlateMD
                             }
                         }
                     }
-					Console.WriteLine("CurrentAssembly is: " + Environment.NewLine + CurrentAssembly);
+                    Console.WriteLine("CurrentAssembly is: " + Environment.NewLine + CurrentAssembly);
                 }
             }
         }
