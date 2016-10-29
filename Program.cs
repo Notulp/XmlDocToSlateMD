@@ -22,7 +22,13 @@ namespace XmlToSlateMD
         public static void Main(string[] args)
         {
             foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, "*.xml")) {
-                using (var stream = new FileStream(file, FileMode.Open)) {
+                string xmlStr = File.ReadAllText(file);
+
+                xmlStr = Regex.Replace(xmlStr,
+                                       "<see cref=\"[A-Z?]:(.*)\" \\/>",
+                                       m => "&lt;a href=\"#" + m.Groups[1].Value.ToLower().Replace('.','_') + "\" /&gt;");
+
+                using (var stream = xmlStr.ToStream()) {
                     // TODO: Add reflection stuff, to:
                     // * get return types
                     // * types of parameters
@@ -31,7 +37,6 @@ namespace XmlToSlateMD
                     // 
                     // Load the file to a string and:
                     //
-                    // * use regex "<see (.+)/>" to replace see tags with <a href="#documented_type">TypeName</a>
                     // * remove <c> and <code> tags
 
                     using (var xml = System.Xml.XmlReader.Create(stream)) {
@@ -73,7 +78,7 @@ namespace XmlToSlateMD
                                                     CurrentDoc = new ConstructorDoc(CurrentType as TypeDoc);
                                                     CurrentDoc.Name = memberName.Replace("#ctor",
                                                                                          Regex.Match(memberName,
-                                                                                                              ".([A-z]+).#").Groups[1].Value).Substring(2);
+                                                                                                     ".([A-z]+).#").Groups[1].Value).Substring(2);
                                                 } else {
                                                     CurrentDoc = new MethodDoc(CurrentType as TypeDoc);
                                                 }
