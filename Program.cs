@@ -26,7 +26,11 @@ namespace XmlToSlateMD
 
                 xmlStr = Regex.Replace(xmlStr,
                                        "<see cref=\"[A-Z?]:(.*)\" \\/>",
-                                       m => "&lt;a href=\"#" + m.Groups[1].Value.ToLower().Replace('.','_') + "\" /&gt;");
+                                       m => "&lt;a href=\"#" +
+                                            m.Groups[1].Value.ToLower().Replace('.','_') + "\"&gt;" +
+                                            m.Groups[1].Value.Split('.').Last() +
+                                            "&lt;/a&gt;"
+                                      );
 
                 using (var stream = xmlStr.ToStream()) {
                     // TODO: Add reflection stuff, to:
