@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XmlToSlateMD
+namespace XmlToSlateMD.Documentation
 {
     public class FieldDoc : BaseDoc
     {

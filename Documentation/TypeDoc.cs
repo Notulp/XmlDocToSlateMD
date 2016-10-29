@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace XmlToSlateMD
+namespace XmlToSlateMD.Documentation
 {
     public class TypeDoc : BaseDoc
     {

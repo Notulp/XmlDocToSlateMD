@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 
-namespace XmlToSlateMD
+namespace XmlToSlateMD.Documentation
 {
     public class AssemblyDoc : BaseDoc
     {

@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 
+using XmlToSlateMD.Documentation;
+
 namespace XmlToSlateMD
 {
     class MainClass
@@ -79,7 +81,7 @@ namespace XmlToSlateMD
                                         if (CurrentDoc.Name == null)
                                             CurrentDoc.Name = memberName.Substring(2);
                                         break;
-										
+
                                     case "summary":
 										xml.Read();
                                         PreviousDoc.SetFieldValue("Summary", xml.Value);

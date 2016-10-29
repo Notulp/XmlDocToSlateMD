@@ -39,20 +39,23 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AssemblyDoc.cs" />
-    <Compile Include="TypeDoc.cs" />
-    <Compile Include="PropertyDoc.cs" />
-    <Compile Include="FieldDoc.cs" />
-    <Compile Include="MethodDoc.cs" />
-    <Compile Include="ParameterDoc.cs" />
-    <Compile Include="ConstructorDoc.cs" />
-    <Compile Include="BaseDoc.cs" />
     <Compile Include="ReflectionEx.cs" />
+    <Compile Include="Documentation\AssemblyDoc.cs" />
+    <Compile Include="Documentation\BaseDoc.cs" />
+    <Compile Include="Documentation\ConstructorDoc.cs" />
+    <Compile Include="Documentation\FieldDoc.cs" />
+    <Compile Include="Documentation\MethodDoc.cs" />
+    <Compile Include="Documentation\ParameterDoc.cs" />
+    <Compile Include="Documentation\PropertyDoc.cs" />
+    <Compile Include="Documentation\TypeDoc.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="InitialTest.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Documentation\" />
   </ItemGroup>
 </Project>
