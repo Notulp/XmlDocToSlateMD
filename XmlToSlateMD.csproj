@@ -49,6 +49,7 @@
     <Compile Include="Documentation\PropertyDoc.cs" />
     <Compile Include="Documentation\TypeDoc.cs" />
     <Compile Include="StringEx.cs" />
+    <Compile Include="RegexEx.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
