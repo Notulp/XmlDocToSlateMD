@@ -1,220 +1,220 @@
 ﻿namespace XmlToSlateMD
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Reflection;
-	using System.Reflection.Emit;
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.Reflection.Emit;
 
-	public static class ReflectionEx
-	{
-		//Instanced
-		public static object CallMethod(this object obj, string methodName, params object[] args)
-		{
-			var metInf = GetMethodInfo(obj, methodName);
+    public static class ReflectionEx
+    {
+        //Instanced
+        public static object CallMethod(this object obj, string methodName, params object[] args)
+        {
+            var metInf = GetMethodInfo(obj, methodName);
 
-			if (metInf == null)
-				throw new Exception(String.Format("Couldn't find method '{0}' using reflection.", methodName));
+            if (metInf == null)
+                throw new Exception(String.Format("Couldn't find method '{0}' using reflection.", methodName));
 
-			if (metInf is MethodInfo)
-				return metInf.As<MethodInfo>().Invoke(obj, args);
+            if (metInf is MethodInfo)
+                return metInf.As<MethodInfo>().Invoke(obj, args);
 
-			return null;
-		}
+            return null;
+        }
 
-		public static object CallMethodOnBase(this object obj, string methodName, params object[] args)
-		{
-			Type Base = obj.GetType().BaseType;
-			if (Base != null) {
-				return CallMethodOnBase(obj, GetMethodInfo(Base, methodName), args);
-			}
-			return null;
-		}
+        public static object CallMethodOnBase(this object obj, string methodName, params object[] args)
+        {
+            Type Base = obj.GetType().BaseType;
+            if (Base != null) {
+                return CallMethodOnBase(obj, GetMethodInfo(Base, methodName), args);
+            }
+            return null;
+        }
 
-		public static object CallMethodOnBase(this object obj, Type Base, string methodname, params object[] args)
-		{
-			return CallMethodOnBase(obj, GetMethodInfo(Base, methodname), args);
-		}
+        public static object CallMethodOnBase(this object obj, Type Base, string methodname, params object[] args)
+        {
+            return CallMethodOnBase(obj, GetMethodInfo(Base, methodname), args);
+        }
 
-		public static object CallMethodOnBase(this object obj, MethodInfo method, params object[] args)
-		{
-			var parameters = method.GetParameters();
+        public static object CallMethodOnBase(this object obj, MethodInfo method, params object[] args)
+        {
+            var parameters = method.GetParameters();
 
-			if (parameters.Length == 0) {
-				if (args != null && args.Length != 0)
-					throw new Exception("Arguments count doesn't match");
-			} else {
-				if (parameters.Length != args.Length)
-					throw new Exception("Arguments count doesn't match");
-			}
+            if (parameters.Length == 0) {
+                if (args != null && args.Length != 0)
+                    throw new Exception("Arguments count doesn't match");
+            } else {
+                if (parameters.Length != args.Length)
+                    throw new Exception("Arguments count doesn't match");
+            }
 
-			Type returnType = null;
-			if (method.ReturnType != typeof(void)) {
-				returnType = method.ReturnType;
-			}
+            Type returnType = null;
+            if (method.ReturnType != typeof(void)) {
+                returnType = method.ReturnType;
+            }
 
-			var type = obj.GetType();
-			var dynamicMethod = new DynamicMethod("", returnType,
-												  new Type[] { type, typeof(Object) }, type);
+            var type = obj.GetType();
+            var dynamicMethod = new DynamicMethod("", returnType,
+                                                  new Type[] { type, typeof(Object) }, type);
 
-			var iLGenerator = dynamicMethod.GetILGenerator();
-			iLGenerator.Emit(OpCodes.Ldarg_0);
+            var iLGenerator = dynamicMethod.GetILGenerator();
+            iLGenerator.Emit(OpCodes.Ldarg_0);
 
-			for (var i = 0; i < parameters.Length; i++) {
-				var parameter = parameters[i];
+            for (var i = 0; i < parameters.Length; i++) {
+                var parameter = parameters[i];
 
-				iLGenerator.Emit(OpCodes.Ldarg_1);
+                iLGenerator.Emit(OpCodes.Ldarg_1);
 
-				iLGenerator.Emit(OpCodes.Ldc_I4_S, i);
-				iLGenerator.Emit(OpCodes.Ldelem_Ref);
+                iLGenerator.Emit(OpCodes.Ldc_I4_S, i);
+                iLGenerator.Emit(OpCodes.Ldelem_Ref);
 
-				var parameterType = parameter.ParameterType;
-				if (parameterType.IsPrimitive) {
-					iLGenerator.Emit(OpCodes.Unbox_Any, parameterType);
-				} else if (parameterType == typeof(Object)) {
-				} else {
-					iLGenerator.Emit(OpCodes.Castclass, parameterType);
-				}
-			}
+                var parameterType = parameter.ParameterType;
+                if (parameterType.IsPrimitive) {
+                    iLGenerator.Emit(OpCodes.Unbox_Any, parameterType);
+                } else if (parameterType == typeof(Object)) {
+                } else {
+                    iLGenerator.Emit(OpCodes.Castclass, parameterType);
+                }
+            }
 
-			iLGenerator.Emit(OpCodes.Call, method);
-			iLGenerator.Emit(OpCodes.Ret);
+            iLGenerator.Emit(OpCodes.Call, method);
+            iLGenerator.Emit(OpCodes.Ret);
 
-			return dynamicMethod.Invoke(null, new[] { obj, args });
-		}
+            return dynamicMethod.Invoke(null, new[] { obj, args });
+        }
 
-		public static object GetFieldValue(this object obj, string fieldName)
-		{
-			var memInf = GetFieldInfo(obj, fieldName);
+        public static object GetFieldValue(this object obj, string fieldName)
+        {
+            var memInf = GetFieldInfo(obj, fieldName);
 
-			if (memInf == null)
-				throw new Exception(String.Format("Couldn't find field '{0}' using reflection.", fieldName));
+            if (memInf == null)
+                throw new Exception(String.Format("Couldn't find field '{0}' using reflection.", fieldName));
 
-			if (memInf is PropertyInfo)
-				return memInf.As<PropertyInfo>().GetValue(obj, null);
+            if (memInf is PropertyInfo)
+                return memInf.As<PropertyInfo>().GetValue(obj, null);
 
-			if (memInf is FieldInfo)
-				return memInf.As<FieldInfo>().GetValue(obj);
+            if (memInf is FieldInfo)
+                return memInf.As<FieldInfo>().GetValue(obj);
 
-			throw new Exception();
-		}
+            throw new Exception();
+        }
 
-		public static object GetFieldValueChain(this object obj, params string[] args)
-		{
-			foreach (string arg in args) {
-				obj = obj.GetFieldValue(arg);
-			}
-			return obj;
-		}
+        public static object GetFieldValueChain(this object obj, params string[] args)
+        {
+            foreach (string arg in args) {
+                obj = obj.GetFieldValue(arg);
+            }
+            return obj;
+        }
 
-		public static void SetFieldValue(this object obj, string fieldName, object newValue)
-		{
-			var memInf = GetFieldInfo(obj, fieldName);
+        public static void SetFieldValue(this object obj, string fieldName, object newValue)
+        {
+            var memInf = GetFieldInfo(obj, fieldName);
 
-			if (memInf == null)
-				throw new Exception(String.Format("Couldn't find field '{0}' using reflection.", fieldName));
+            if (memInf == null)
+                throw new Exception(String.Format("Couldn't find field '{0}' using reflection.", fieldName));
 
-			if (memInf is PropertyInfo)
-				memInf.As<PropertyInfo>().SetValue(obj, newValue, null);
-			else if (memInf is FieldInfo)
-				memInf.As<FieldInfo>().SetValue(obj, newValue);
-			else
-				throw new Exception();
-		}
+            if (memInf is PropertyInfo)
+                memInf.As<PropertyInfo>().SetValue(obj, newValue, null);
+            else if (memInf is FieldInfo)
+                memInf.As<FieldInfo>().SetValue(obj, newValue);
+            else
+                throw new Exception();
+        }
 
-		static MethodInfo GetMethodInfo(Type classType, string methodName)
-		{
-			return classType.GetMethod(methodName,
-									   BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Static);
-		}
+        static MethodInfo GetMethodInfo(Type classType, string methodName)
+        {
+            return classType.GetMethod(methodName,
+                                       BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Static);
+        }
 
-		static MethodInfo GetMethodInfo(object obj, string methodName)
-		{
-			return GetMethodInfo(obj.GetType(), methodName);
-		}
+        static MethodInfo GetMethodInfo(object obj, string methodName)
+        {
+            return GetMethodInfo(obj.GetType(), methodName);
+        }
 
-		static MemberInfo GetFieldInfo(Type objType, string fieldName)
-		{
-			var prps = new List<PropertyInfo>();
+        static MemberInfo GetFieldInfo(Type objType, string fieldName)
+        {
+            var prps = new List<PropertyInfo>();
 
-			prps.Add(objType.GetProperty(fieldName,
-										 BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Static));
+            prps.Add(objType.GetProperty(fieldName,
+                                         BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Static));
 
-			prps = System.Linq.Enumerable.ToList(System.Linq.Enumerable.Where(prps, i => !ReferenceEquals(i, null)));
+            prps = System.Linq.Enumerable.ToList(System.Linq.Enumerable.Where(prps, i => !ReferenceEquals(i, null)));
 
-			if (prps.Count != 0)
-				return prps[0];
+            if (prps.Count != 0)
+                return prps[0];
 
-			var flds = new List<FieldInfo>();
+            var flds = new List<FieldInfo>();
 
-			flds.Add(objType.GetField(fieldName,
-									  BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Static));
+            flds.Add(objType.GetField(fieldName,
+                                      BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Static));
 
-			flds = System.Linq.Enumerable.ToList(System.Linq.Enumerable.Where(flds, i => !ReferenceEquals(i, null)));
+            flds = System.Linq.Enumerable.ToList(System.Linq.Enumerable.Where(flds, i => !ReferenceEquals(i, null)));
 
-			if (flds.Count != 0)
-				return flds[0];
+            if (flds.Count != 0)
+                return flds[0];
 
-			// if not found on the current type, check the base
-			if (objType.BaseType != null) {
-				return GetFieldInfo(objType.BaseType, fieldName);
-			}
-			return null;
-		}
+            // if not found on the current type, check the base
+            if (objType.BaseType != null) {
+                return GetFieldInfo(objType.BaseType, fieldName);
+            }
+            return null;
+        }
 
-		static MemberInfo GetFieldInfo(object obj, string fieldName)
-		{
-			return GetFieldInfo(obj.GetType(), fieldName);
-		}
+        static MemberInfo GetFieldInfo(object obj, string fieldName)
+        {
+            return GetFieldInfo(obj.GetType(), fieldName);
+        }
 
-		//Static
-		public static void CallStaticMethod(this Type classType, string methodName, params object[] args)
-		{
-			var metInf = GetMethodInfo(classType, methodName);
+        //Static
+        public static void CallStaticMethod(this Type classType, string methodName, params object[] args)
+        {
+            var metInf = GetMethodInfo(classType, methodName);
 
-			if (metInf == null)
-				throw new Exception(String.Format("Couldn't find method '{0}' using reflection.", methodName));
+            if (metInf == null)
+                throw new Exception(String.Format("Couldn't find method '{0}' using reflection.", methodName));
 
-			if (metInf is MethodInfo) {
-				MethodInfo meta = metInf.As<MethodInfo>();
-				meta.Invoke(null, args);
-			}
-		}
+            if (metInf is MethodInfo) {
+                MethodInfo meta = metInf.As<MethodInfo>();
+                meta.Invoke(null, args);
+            }
+        }
 
-		public static object GetStaticFieldValue(this Type classType, string fieldName)
-		{
-			var memInf = GetFieldInfo(classType, fieldName);
+        public static object GetStaticFieldValue(this Type classType, string fieldName)
+        {
+            var memInf = GetFieldInfo(classType, fieldName);
 
-			if (memInf == null)
-				throw new Exception(String.Format("Couldn't find field '{0}' using reflection.", fieldName));
+            if (memInf == null)
+                throw new Exception(String.Format("Couldn't find field '{0}' using reflection.", fieldName));
 
-			if (memInf is PropertyInfo)
-				return memInf.As<PropertyInfo>().GetValue(null, null);
+            if (memInf is PropertyInfo)
+                return memInf.As<PropertyInfo>().GetValue(null, null);
 
-			if (memInf is FieldInfo)
-				return memInf.As<FieldInfo>().GetValue(null);
+            if (memInf is FieldInfo)
+                return memInf.As<FieldInfo>().GetValue(null);
 
-			throw new Exception();
-		}
+            throw new Exception();
+        }
 
-		public static void SetFieldValueValue(this Type classType, string fieldName, object newValue)
-		{
-			var memInf = GetFieldInfo(classType, fieldName);
+        public static void SetFieldValueValue(this Type classType, string fieldName, object newValue)
+        {
+            var memInf = GetFieldInfo(classType, fieldName);
 
-			if (memInf == null)
-				throw new Exception(String.Format("Couldn't find field '{0}' using reflection.", fieldName));
+            if (memInf == null)
+                throw new Exception(String.Format("Couldn't find field '{0}' using reflection.", fieldName));
 
-			if (memInf is PropertyInfo)
-				memInf.As<PropertyInfo>().SetValue(null, newValue, null);
-			else if (memInf is FieldInfo)
-				memInf.As<FieldInfo>().SetValue(null, newValue);
-			else
-				throw new Exception();
-		}
+            if (memInf is PropertyInfo)
+                memInf.As<PropertyInfo>().SetValue(null, newValue, null);
+            else if (memInf is FieldInfo)
+                memInf.As<FieldInfo>().SetValue(null, newValue);
+            else
+                throw new Exception();
+        }
 
-		[System.Diagnostics.DebuggerHidden]
-		static T As<T>(this object obj)
-		{
-			return (T)obj;
-		}
-	}
+        [System.Diagnostics.DebuggerHidden]
+        static T As<T>(this object obj)
+        {
+            return (T)obj;
+        }
+    }
 }

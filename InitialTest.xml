@@ -4,11 +4,6 @@
         <name>Pluton.Rust</name>
     </assembly>
     <members>
-        <member name="T:Pluton.Rust.Hooks">
-             <summary>
-             
-             </summary>
-            </member>
         <member name="M:Pluton.Rust.Hooks.On_Chat(ConsoleSystem.Arg)">
              <summary>
              Called from <c>ConVar.Chat.say(ConsoleSystem.Arg)</c> .

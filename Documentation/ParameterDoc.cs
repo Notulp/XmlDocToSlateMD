@@ -10,14 +10,14 @@ namespace XmlToSlateMD.Documentation
 
         public string Type = "<missing>";
 
-		public ParameterDoc(BaseDoc parent) : base(parent)
-		{
-		}
+        public ParameterDoc(BaseDoc parent) : base(parent)
+        {
+        }
 
         public override string ToString()
         {
             return $"{Name} | {Type} | {defaultValue} | {Summary}";
         }
-	}
+    }
 }
 

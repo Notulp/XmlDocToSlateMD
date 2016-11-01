@@ -6,17 +6,16 @@ namespace XmlToSlateMD.Documentation
 {
     public class AssemblyDoc : BaseDoc
     {
-		public List<TypeDoc> Types = new List<TypeDoc>();
+        public List<TypeDoc> Types = new List<TypeDoc>();
 
-		public AssemblyDoc(BaseDoc parent = null) : base(parent)
-		{
-		}
+        public AssemblyDoc(BaseDoc parent = null) : base(parent)
+        {
+        }
 
-		public override void RegisterChild(BaseDoc child)
-		{
-            Console.WriteLine("registering: " + child.GetType() + " on: " + Name);
-			Types.Add(child as TypeDoc);
-		}
+        public override void RegisterChild(BaseDoc child)
+        {
+            Types.Add(child as TypeDoc);
+        }
 
         public void ToFile()
         {

@@ -27,9 +27,20 @@ namespace XmlToSlateMD
                 xmlStr = Regex.Replace(xmlStr,
                                        "<see cref=\"[A-Z?]:(.*)\" \\/>",
                                        m => "&lt;a href=\"#" +
-                                            m.Groups[1].Value.ToLower().Replace('.','_') + "\"&gt;" +
-                                            m.Groups[1].Value.Split('.').Last() +
-                                            "&lt;/a&gt;"
+                                           m.Groups[1].Value.ToLower().Replace('.', '_') + "\"&gt;" +
+                                           m.Groups[1].Value.Split('.').Last() +
+                                           "&lt;/a&gt;"
+                                      );
+
+                xmlStr = Regex.Replace(xmlStr,
+                                       @"<(c|code)>([^<])*<\/(c|code)>",
+                                       m => "&lt;" +
+                                           m.Groups[1].Value +
+                                           "&gt;" +
+                                           m.Groups[2].Captures.Join() +
+                                           "&lt;/" +
+                                           m.Groups[1].Value +
+                                           "&gt;"
                                       );
 
                 using (var stream = xmlStr.ToStream()) {
@@ -38,10 +49,6 @@ namespace XmlToSlateMD
                     // * types of parameters
                     // * types of fields/properties
                     // * determine if properties has setters or only getters
-                    // 
-                    // Load the file to a string and:
-                    //
-                    // * remove <c> and <code> tags
 
                     using (var xml = System.Xml.XmlReader.Create(stream)) {
                         while (xml.Read()) {
@@ -55,12 +62,12 @@ namespace XmlToSlateMD
                                         CurrentAssembly = new AssemblyDoc();
                                         CurrentDoc = CurrentAssembly;
                                         break;
-										
+                                        
                                     case "name":
                                         xml.Read();
                                         CurrentAssembly.Name = xml.Value;
                                         break;
-										
+                                        
                                     case "member":
                                         var memberName = xml["name"];
                                         char type = memberName[0];
@@ -77,6 +84,15 @@ namespace XmlToSlateMD
                                                 break;
                                             case 'M':
                                                 // the method's name for constructors is #ctor, lets change that to the name of the Type
+
+                                                // check if the method is a method of the _current_ type, if it's not then it means the type of this method is not _documented_
+                                                // so we add an empty doc for it here
+                                                // (probably should do so for properties/fields as well)
+                                                if (CurrentType == null || !memberName.Contains(CurrentType.Name.Substring(2))) {
+                                                    string typename = memberName.Substring(0, memberName.IndexOf("("));
+                                                    typename = typename.Substring(2, typename.LastIndexOf('.') - 2);
+                                                    CurrentType = new TypeDoc(CurrentAssembly) { Name = typename };
+                                                }
 
                                                 if (memberName.Contains("#ctor")) {
                                                     CurrentDoc = new ConstructorDoc(CurrentType as TypeDoc);
@@ -98,7 +114,7 @@ namespace XmlToSlateMD
                                         PreviousDoc.SetFieldValue("Summary", xml.Value);
 
                                         break;
-										
+                                        
                                     case "param":
                                         string name = xml["name"];
                                         xml.Read();
@@ -107,7 +123,7 @@ namespace XmlToSlateMD
                                             Summary = xml.Value
                                         };
                                         break;
-										
+                                        
                                     case "csharp":
                                     case "javascript":
                                     case "python":
@@ -123,7 +139,7 @@ namespace XmlToSlateMD
                                             });
                                         }
                                         break;
-										
+                                        
                                     case "v":
                                         break;
                                     case "value":

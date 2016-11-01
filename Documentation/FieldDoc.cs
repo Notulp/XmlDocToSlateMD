@@ -6,15 +6,15 @@ namespace XmlToSlateMD.Documentation
     {
         public string Summary = "<missing>";
 
-		public string Type = "<missing>";
+        public string Type = "<missing>";
 
-		public FieldDoc(TypeDoc parent) : base(parent)
-		{
-		}
-
-		public override string ToString()
+        public FieldDoc(TypeDoc parent) : base(parent)
         {
-			return $"{Name} | {Type} | {Summary}";
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} | {Type} | {Summary}";
         }
     }
 }

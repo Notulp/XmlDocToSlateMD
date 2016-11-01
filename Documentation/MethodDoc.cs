@@ -8,16 +8,16 @@ namespace XmlToSlateMD.Documentation
     {
         public string Summary = "<missing>";
 
-		public List<ParameterDoc> Params = new List<ParameterDoc>();
+        public List<ParameterDoc> Params = new List<ParameterDoc>();
 
-		public MethodDoc(TypeDoc parent) : base(parent)
-		{
-		}
+        public MethodDoc(TypeDoc parent) : base(parent)
+        {
+        }
 
-		public override void RegisterChild(BaseDoc child)
-		{
-			Params.Add(child as ParameterDoc);
-		}
+        public override void RegisterChild(BaseDoc child)
+        {
+            Params.Add(child as ParameterDoc);
+        }
 
         public override string ToString()
         {
