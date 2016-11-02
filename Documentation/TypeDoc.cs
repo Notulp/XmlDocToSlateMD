@@ -18,7 +18,8 @@ namespace XmlToSlateMD.Documentation
 
         public List<PropertyDoc> Properties = new List<PropertyDoc>();
 
-        public TypeDoc(AssemblyDoc parent) : base(parent)
+        public TypeDoc(AssemblyDoc parent)
+            : base(parent)
         {
         }
 

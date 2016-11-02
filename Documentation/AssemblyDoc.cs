@@ -8,7 +8,8 @@ namespace XmlToSlateMD.Documentation
     {
         public List<TypeDoc> Types = new List<TypeDoc>();
 
-        public AssemblyDoc(BaseDoc parent = null) : base(parent)
+        public AssemblyDoc(BaseDoc parent = null)
+            : base(parent)
         {
         }
 

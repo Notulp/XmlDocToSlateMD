@@ -6,9 +6,9 @@
 
         public BaseDoc Parent;
 
-        public virtual string this[string param] {
+        public virtual object this [string param] {
             get {
-                return this.GetFieldValue(param) as string;
+                return this.GetFieldValue(param);
             }
             set {
                 this.SetFieldValue(param, value);

@@ -10,7 +10,10 @@ namespace XmlToSlateMD.Documentation
 
         public List<ParameterDoc> Params = new List<ParameterDoc>();
 
-        public ConstructorDoc(TypeDoc parent) : base(parent)
+        public Type ReturnType = typeof(void);
+
+        public ConstructorDoc(TypeDoc parent)
+            : base(parent)
         {
         }
 

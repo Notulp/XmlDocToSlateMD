@@ -10,7 +10,10 @@ namespace XmlToSlateMD.Documentation
 
         public List<ParameterDoc> Params = new List<ParameterDoc>();
 
-        public MethodDoc(TypeDoc parent) : base(parent)
+        public Type ReturnType = typeof(void);
+
+        public MethodDoc(TypeDoc parent)
+            : base(parent)
         {
         }
 
@@ -22,7 +25,7 @@ namespace XmlToSlateMD.Documentation
         public override string ToString()
         {
             var prms = String.Join(Environment.NewLine, (from param in Params select param.ToString()).ToArray());
-            return $"## {Name}{Environment.NewLine}{Environment.NewLine}{Summary}{Environment.NewLine}{Environment.NewLine}{prms}";
+            return $"## {Name}{Environment.NewLine}{Environment.NewLine}{Summary}{Environment.NewLine}{Environment.NewLine}### RETURN TYPE: {ReturnType.Name}{Environment.NewLine}{Environment.NewLine}{prms}";
         }
     }
 }

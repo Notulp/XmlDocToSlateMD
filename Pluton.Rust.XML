@@ -1,167 +1,165 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <doc>
     <assembly>
         <name>Pluton.Rust</name>
     </assembly>
     <members>
         <member name="M:Pluton.Rust.Hooks.On_Chat(ConsoleSystem.Arg)">
-             <summary>
+            <summary>
              Called from <c>ConVar.Chat.say(ConsoleSystem.Arg)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_Placement(Construction,Construction.Target,System.Boolean)">
-             <summary>
+            <summary>
              Called from <c>Construction.CreateConstruction(Construction.Target, bool)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_DoorUse(Door,BaseEntity.RPCMessage,System.Boolean)">
-             <summary>
+            <summary>
              Called from <c>Door.RPC_OpenDoor(BaseEntity.RPCMessage)</c> and <c>Door.RPC_CloseDoor(BaseEntity.RPCMessage)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_NPCKilled(BaseNPC,HitInfo)">
-             <summary>
+            <summary>
              Called from <c>BaseNPC.OnKilled(HitInfo)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_PlayerDisconnected(BasePlayer)">
-             <summary>
+            <summary>
              Called from <c>BasePlayer.OnDisconnected()</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_PlayerDied(BasePlayer,HitInfo)">
-             <summary>
+            <summary>
              Called from <c>BasePlayer.Die(HitInfo)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_PlayerStartCrafting(ItemCrafter,ItemBlueprint,BasePlayer,ProtoBuf.Item.InstanceData,System.Int32,System.Int32,Item)">
-             <summary>
+            <summary>
              Called from <c>ItemCrafter.CraftItem(ItemBlueprint, BasePlayer, ProtoBuf.Item.InstanceData, int, int, Item)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_PlayerTakeRadiation(BasePlayer,System.Single)">
-             <summary>
+            <summary>
              Called from <c>BasePlayer.UpdateRadiation(float)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_ClientAuth(ConnectionAuth,Network.Connection)">
-             <summary>
+            <summary>
              Called from <c>ConnectionAuth.Approve(Connection)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_Respawn(BasePlayer,UnityEngine.Vector3,UnityEngine.Quaternion)">
-             <summary>
+            <summary>
              Called from <c>BasePlayer.RespawnAt(Vector3, Quaternion)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_LootingEntity(PlayerLoot)">
-             <summary>
+            <summary>
              Called from <c>PlayerLoot.StartLootingEntity(BaseEntity, bool)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_LootingItem(PlayerLoot)">
-             <summary>
+            <summary>
              Called from <c>PlayerLoot.StartLootingItem(Item)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_LootingPlayer(PlayerLoot)">
-             <summary>
+            <summary>
              Called from <c>PlayerLoot.StartLootingItem(BasePlayer)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_ClientConsole(ConsoleSystem.Arg,System.String)">
-             <summary>
+            <summary>
              Called from <c>ConsoleNetwork.OnClientCommand(Message)</c> .
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Hooks.On_ServerConsole(ConsoleSystem.Arg,System.String)">
-             <summary>
+            <summary>
              Called from <c>ConsoleSystem.SystemRealm.Normal(RunOptions, string, params object[])</c> .
              </summary>
-            </member>
+        </member>
         <member name="T:Pluton.Rust.Events.AuthEvent">
-             <summary>
+            <summary>
              # Pluton.Rust.Events.AuthEvent
-             <javascript>function whatever(evt) {\r\n\tevt.Reject("poop");\r\n}</javascript>
-             <python>def whatever(self, evt):\r\n\tevt.Reject("poop")</python>
-             </summary>
-            </member>
+             <javascript>function whatever(evt) {\r\n\tevt.Reject("poop");\r\n}</javascript><python>def whatever(self, evt):\r\n\tevt.Reject("poop")</python></summary>
+        </member>
         <member name="F:Pluton.Rust.Events.AuthEvent.Connection">
-             <summary>
+            <summary>
              public readonly Connection Connection;
              </summary>
-            </member>
+        </member>
         <member name="F:Pluton.Rust.Events.AuthEvent.Approved">
-             <summary>
+            <summary>
              public bool Approved;
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Events.AuthEvent.#ctor(Network.Connection)">
-             <summary>
+            <summary>
              public AuthEvent(Connection connection) <see cref="T:Pluton.Rust.Events.AuthEvent" /> class.
              </summary>
-             <param name="connection">Connection.</param>
-            </member>
+            <param name="connection">Connection.</param>
+        </member>
         <member name="M:Pluton.Rust.Events.AuthEvent.Reject(System.String)">
-             <summary>
+            <summary>
              public void Reject(string reason = "No reason.")
              </summary>
-             <javascript>function On_ClientAuth(evt) {\r\n\treturn;\r\n}</javascript>
-             <param name="reason" defaultValue="No reason.">Reason.</param>
-            </member>
+            <javascript>function On_ClientAuth(evt) {\r\n\treturn;\r\n}</javascript>
+            <param name="reason" defaultValue="No reason.">Reason.</param>
+        </member>
         <member name="P:Pluton.Rust.Events.AuthEvent.GameID">
-             <summary>
+            <summary>
              public ulong GameID =&gt; Connection.userid;
              </summary>
-             <value>The game I.</value>
-            </member>
+            <value>The game I.</value>
+        </member>
         <member name="T:Pluton.Rust.Events.BuildingEvent">
-             <summary>
+            <summary>
              Building event.
              </summary>
-            </member>
+        </member>
         <member name="F:Pluton.Rust.Events.BuildingEvent.Construction">
-             <summary>
+            <summary>
              The construction.
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Events.BuildingEvent.#ctor(Construction,Construction.Target,BuildingBlock,System.Boolean)">
-             <summary>
+            <summary>
              Initializes a new instance of the <see cref="T:Pluton.Rust.Events.BuildingEvent" /> class.
              </summary>
-             <param name="construction">Construction.</param>
-             <param name="target">Target.</param>
-             <param name="buildingBlock">Building block.</param>
-             <param name="needsValidPlacement">If set to <c>true</c> needs valid placement.</param>
-            </member>
+            <param name="construction">Construction.</param>
+            <param name="target">Target.</param>
+            <param name="buildingBlock">Building block.</param>
+            <param name="needsValidPlacement">If set to <c>true</c> needs valid placement.</param>
+        </member>
         <member name="M:Pluton.Rust.Events.BuildingEvent.Destroy(System.String)">
-             <summary>
+            <summary>
              Destroy the specified reason.
              </summary>
-             <param name="reason">Reason.</param>
-            </member>
+            <param name="reason">Reason.</param>
+        </member>
         <member name="T:Pluton.Rust.Events.BuildingPartDemolishedEvent">
-             <summary>
+            <summary>
              Building part demolished event.
              </summary>
-            </member>
+        </member>
         <member name="F:Pluton.Rust.Events.BuildingPartDemolishedEvent.BuildingPart">
-             <summary>
+            <summary>
              The building part.
              </summary>
-            </member>
+        </member>
         <member name="F:Pluton.Rust.Events.BuildingPartDemolishedEvent.Player">
-             <summary>
+            <summary>
              The player.
              </summary>
-            </member>
+        </member>
         <member name="M:Pluton.Rust.Events.BuildingPartDemolishedEvent.#ctor(BuildingBlock,BasePlayer)">
-             <summary>
+            <summary>
              Initializes a new instance of the <see cref="T:Pluton.Rust.Events.BuildingPartDemolishedEvent" /> class.
              </summary>
-             <param name="buildingBlock">Building block.</param>
-             <param name="basePlayer">Base player.</param>
-            </member>
+            <param name="buildingBlock">Building block.</param>
+            <param name="basePlayer">Base player.</param>
+        </member>
         <member name="P:Pluton.Rust.Events.DeathEvent.DamageAmounts">
             
             ***************

@@ -4,13 +4,14 @@ namespace XmlToSlateMD.Documentation
 {
     public class ParameterDoc : BaseDoc
     {
-        public string Summary = "<missing>";
-
         public string defaultValue = "<null>";
+
+        public string Summary = "<missing>";
 
         public string Type = "<missing>";
 
-        public ParameterDoc(BaseDoc parent) : base(parent)
+        public ParameterDoc(BaseDoc parent)
+            : base(parent)
         {
         }
 

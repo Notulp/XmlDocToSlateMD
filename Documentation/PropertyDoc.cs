@@ -4,13 +4,16 @@ namespace XmlToSlateMD.Documentation
 {
     public class PropertyDoc : BaseDoc
     {
+        public string defaultValue = "<null>";
+
         public string Summary = "<missing>";
 
         public string Type = "<missing>";
 
         public bool GetterOnly = false;
 
-        public PropertyDoc(TypeDoc parent) : base(parent)
+        public PropertyDoc(TypeDoc parent)
+            : base(parent)
         {
         }
 
