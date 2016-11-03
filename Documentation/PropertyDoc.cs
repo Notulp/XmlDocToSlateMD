@@ -4,11 +4,14 @@ namespace XmlToSlateMD.Documentation
 {
     public class PropertyDoc : BaseDoc
     {
-        public string defaultValue = "<null>";
+        public string defaultValue = "&lt;null&gt;";
 
-        public string Summary = "<missing>";
+        public static string Header = $"Name | Type | Summary | Getter/setter{Environment.NewLine}" +
+                                      $"--- | --- | --- | ---{Environment.NewLine}";
 
-        public string Type = "<missing>";
+        public string Summary = "&lt;missing&gt;";
+
+        public Type Type = typeof(object);
 
         public bool GetterOnly = false;
 
@@ -20,7 +23,7 @@ namespace XmlToSlateMD.Documentation
         public override string ToString()
         {
             string getter = (GetterOnly ? "getter" : "getter/setter");
-            return $"{Name} | {Type} | {Summary} | {getter}";
+            return $"{Name} | {Type.Format()} | {Summary} | {getter}";
         }
     }
 }

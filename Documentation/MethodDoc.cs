@@ -6,7 +6,9 @@ namespace XmlToSlateMD.Documentation
 {
     public class MethodDoc : BaseDoc
     {
-        public string Summary = "<missing>";
+        public string Summary = "&lt;missing&gt;";
+
+        public List<CodeExample> CodeExamples = new List<CodeExample>();
 
         public List<ParameterDoc> Params = new List<ParameterDoc>();
 
@@ -25,7 +27,14 @@ namespace XmlToSlateMD.Documentation
         public override string ToString()
         {
             var prms = String.Join(Environment.NewLine, (from param in Params select param.ToString()).ToArray());
-            return $"## {Name}{Environment.NewLine}{Environment.NewLine}{Summary}{Environment.NewLine}{Environment.NewLine}### RETURN TYPE: {ReturnType.Name}{Environment.NewLine}{Environment.NewLine}{prms}";
+            var codes = String.Join(Environment.NewLine, (from example in CodeExamples select example.ToString()).ToArray()) + Environment.NewLine;
+            return $"## {Name}{Environment.NewLine}{Environment.NewLine}" +
+                $"{Summary}{Environment.NewLine}{Environment.NewLine}" +
+                $"{codes}{Environment.NewLine}{Environment.NewLine}" +
+                $"### Return type: {ReturnType.Format()}{Environment.NewLine}{Environment.NewLine}" +
+                $"### Parameters:{Environment.NewLine}" +
+                ParameterDoc.Header +
+                $"{prms}";
         }
     }
 }

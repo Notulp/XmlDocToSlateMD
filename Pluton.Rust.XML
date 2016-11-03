@@ -18,6 +18,11 @@
             <summary>
              Called from <c>Door.RPC_OpenDoor(BaseEntity.RPCMessage)</c> and <c>Door.RPC_CloseDoor(BaseEntity.RPCMessage)</c> .
              </summary>
+             <javascript>function example(param) {
+    Plugin.dosomething(param);
+}</javascript>
+             <python>def example(self, param):
+    Plugin.dosomething(param)</python>
         </member>
         <member name="M:Pluton.Rust.Hooks.On_NPCKilled(BaseNPC,HitInfo)">
             <summary>
@@ -82,7 +87,12 @@
         <member name="T:Pluton.Rust.Events.AuthEvent">
             <summary>
              # Pluton.Rust.Events.AuthEvent
-             <javascript>function whatever(evt) {\r\n\tevt.Reject("poop");\r\n}</javascript><python>def whatever(self, evt):\r\n\tevt.Reject("poop")</python></summary>
+             </summary>
+             <javascript>function whatever(evt) {
+    evt.Reject("poop");
+}</javascript>
+             <python>def whatever(self, evt):
+    evt.Reject("poop")</python>
         </member>
         <member name="F:Pluton.Rust.Events.AuthEvent.Connection">
             <summary>
@@ -104,7 +114,9 @@
             <summary>
              public void Reject(string reason = "No reason.")
              </summary>
-            <javascript>function On_ClientAuth(evt) {\r\n\treturn;\r\n}</javascript>
+            <javascript>function On_ClientAuth(evt) {
+    return;
+}</javascript>
             <param name="reason" defaultValue="No reason.">Reason.</param>
         </member>
         <member name="P:Pluton.Rust.Events.AuthEvent.GameID">

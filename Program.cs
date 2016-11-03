@@ -32,6 +32,7 @@ namespace XmlToSlateMD
 
         public static void Main(string[] args)
         {
+            // load .dll files in the current directory to
             foreach (var file in Directory.GetFiles(Environment.CurrentDirectory)) {
                 if (file.ToLowerInvariant().EndsWith(".dll")) {
                     Assembly.LoadFile(file);
@@ -44,20 +45,20 @@ namespace XmlToSlateMD
                     xmlStr = Regex.Replace(xmlStr,
                                            "<see cref=\"[A-Z?]:(.*)\" \\/>",
                                            m => "&lt;a href=\"#" +
-                                               m.Groups[1].Value.ToLower().Replace('.', '_') + "\"&gt;" +
-                                               m.Groups[1].Value.Split('.').Last() +
-                                               "&lt;/a&gt;"
+                                           m.Groups[1].Value.ToLower().Replace('.', '-') + "\"&gt;" +
+                                           m.Groups[1].Value.Split('.').Last() +
+                                           "&lt;/a&gt;"
                     );
 
                     xmlStr = Regex.Replace(xmlStr,
                                            @"<(c|code)>([^<])*<\/(c|code)>",
                                            m => "&lt;" +
-                                               m.Groups[1].Value +
-                                               "&gt;" +
-                                               m.Groups[2].Captures.Join() +
-                                               "&lt;/" +
-                                               m.Groups[1].Value +
-                                               "&gt;"
+                                           m.Groups[1].Value +
+                                           "&gt;" +
+                                           m.Groups[2].Captures.Join() +
+                                           "&lt;/" +
+                                           m.Groups[1].Value +
+                                           "&gt;"
                     );
 
                     using (var stream = xmlStr.ToStream()) {
@@ -108,7 +109,8 @@ namespace XmlToSlateMD
                                                     // so we add an empty doc for it here
                                                     // (probably should do so for properties/fields as well)
                                                     if (CurrentType == null || !memberName.Contains(CurrentType.Name.Substring(2))) {
-                                                        string typename = memberName.Substring(0, memberName.IndexOf("("));
+                                                        string typename = memberName.Substring(0,
+                                                                                               memberName.IndexOf("("));
                                                         typename = typename.Substring(2, typename.LastIndexOf('.') - 2);
                                                         CurrentType = new TypeDoc(CurrentAssembly) { Name = typename };
                                                         reflectedType = reflectedAssembly.GetType(typename);
@@ -139,6 +141,7 @@ namespace XmlToSlateMD
                                                     if (memberName.Contains("#ctor")) {
                                                         CurrentDoc = new ConstructorDoc(CurrentType as TypeDoc);
                                                         CurrentDoc.Name = memberName.Replace("#ctor", Regex.Match(memberName, ".([A-z]+).#").Groups[1].Value).Substring(2);
+                                                        CurrentDoc.Name = CurrentDoc.Name.Substring(0, CurrentDoc.Name.IndexOf("("));
                                                         
                                                     } else {
                                                         CurrentDoc = new MethodDoc(CurrentType as TypeDoc);
@@ -154,13 +157,17 @@ namespace XmlToSlateMD
                                                     
                                                     break;
                                             }
-                                            if (CurrentDoc.Name == null)
-                                                CurrentDoc.Name = memberName.Substring(2);
+                                            if (CurrentDoc.Name == null) {
+                                                if (memberName.Contains("("))
+                                                    CurrentDoc.Name = memberName.Substring(2, memberName.IndexOf("(") - 2);
+                                                else
+                                                    CurrentDoc.Name = memberName.Substring(2);
+                                            }
                                             break;
 
                                         case "summary":
                                             xml.Read();
-                                            PreviousDoc["Summary"] = xml.Value;
+                                            PreviousDoc["Summary"] = xml.Value.Trim();
 
                                             break;
                                         
@@ -170,7 +177,7 @@ namespace XmlToSlateMD
                                             CurrentDoc = new ParameterDoc(CurrentMethod) {
                                                 Name = name,
                                                 Summary = xml.Value,
-                                                Type = reflectedMethodParams[currentParam].FullName + " (" + Assembly.GetAssembly(reflectedMethodParams[currentParam]).GetName().Name + ".dll)"
+                                                Type = reflectedMethodParams[currentParam]
                                             };
                                             currentParam++;
                                             break;
@@ -188,7 +195,16 @@ namespace XmlToSlateMD
                                                     Code = xml.Value,
                                                     Language = (Language)Enum.Parse(typeof(Language), lang)
                                                 });
-                                            }
+                                            } else if (PreviousDoc is MethodDoc) {
+                                                    var cdoc = PreviousDoc as MethodDoc;
+                                                    var lang = xml.Name;
+                                                    xml.Read();
+
+                                                    cdoc.CodeExamples.Add(new CodeExample {
+                                                        Code = xml.Value,
+                                                        Language = (Language)Enum.Parse(typeof(Language), lang)
+                                                    });
+                                                }
                                             break;
                                         
                                         case "v":
@@ -246,7 +262,7 @@ namespace XmlToSlateMD
 
         public override string ToString()
         {
-            return $"```{Language}\r\n{Code}\r\n```";
+            return $"```{Language}{Environment.NewLine}{Code}{Environment.NewLine}```";
         }
     }
 }

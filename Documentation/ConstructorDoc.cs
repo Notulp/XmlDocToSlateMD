@@ -6,7 +6,7 @@ namespace XmlToSlateMD.Documentation
 {
     public class ConstructorDoc : BaseDoc
     {
-        public string Summary = "<missing>";
+        public string Summary = "&lt;missing&gt;";
 
         public List<ParameterDoc> Params = new List<ParameterDoc>();
 
@@ -25,7 +25,11 @@ namespace XmlToSlateMD.Documentation
         public override string ToString()
         {
             var prms = String.Join(Environment.NewLine, (from param in Params select param.ToString()).ToArray());
-            return $"## {Name}{Environment.NewLine}{Environment.NewLine}{Summary}{Environment.NewLine}{Environment.NewLine}{prms}";
+            return $"## {Name}{Environment.NewLine}{Environment.NewLine}" +
+                $"{Summary}{Environment.NewLine}{Environment.NewLine}" +
+                $"### Parameters:{Environment.NewLine}" +
+                ParameterDoc.Header+
+                $"{prms}";
         }
     }
 }

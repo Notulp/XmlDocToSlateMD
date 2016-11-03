@@ -4,11 +4,14 @@ namespace XmlToSlateMD.Documentation
 {
     public class FieldDoc : BaseDoc
     {
-        public string defaultValue = "<null>";
+        public string defaultValue = "&lt;null&gt;";
 
-        public string Summary = "<missing>";
+        public static string Header = $"Name | Type | Summary{Environment.NewLine}" +
+                                      $"--- | --- | ---{Environment.NewLine}";
 
-        public string Type = "<missing>";
+        public string Summary = "&lt;missing&gt;";
+
+        public Type Type = typeof(object);
 
         public FieldDoc(TypeDoc parent)
             : base(parent)
@@ -17,7 +20,7 @@ namespace XmlToSlateMD.Documentation
 
         public override string ToString()
         {
-            return $"{Name} | {Type} | {Summary}";
+            return $"{Name} | {Type.Format()} | {Summary}";
         }
     }
 }
