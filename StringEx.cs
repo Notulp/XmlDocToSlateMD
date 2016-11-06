@@ -42,6 +42,32 @@ namespace XmlToSlateMD
             return typename.Substring(2, typename.LastIndexOf('.') - 2);
         }
 
+        public static string HtmlSafe(this string self)
+        {
+            return self.HtmlSafeBrakets().HtmlSafeAngleBrakets().HtmlSafeSquareBrakets();
+        }
+
+        public static string HtmlSafeAngleBrakets(this string self)
+        {
+            foreach (KeyValuePair<string, string> kvp in AngleBracketsToHTMLSafe)
+                self = self.Replace(kvp.Key, kvp.Value);
+            return self;
+        }
+
+        public static string HtmlSafeBrakets(this string self)
+        {
+            foreach (KeyValuePair<string, string> kvp in BracketsToHTMLSafe)
+                self = self.Replace(kvp.Key, kvp.Value);
+            return self;
+        }
+
+        public static string HtmlSafeSquareBrakets(this string self)
+        {
+            foreach (KeyValuePair<string, string> kvp in SquareBracketsToHTMLSafe)
+                self = self.Replace(kvp.Key, kvp.Value);
+            return self;
+        }
+
         public static Stream ToStream(this string self, Encoding encoding = null)
         {
             return new MemoryStream((encoding ?? Encoding.UTF8).GetBytes(self ?? ""));
