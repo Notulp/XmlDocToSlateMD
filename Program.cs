@@ -95,19 +95,31 @@ namespace XmlToSlateMD
                                                     reflectedType = reflectedAssembly.GetType(memberName.Substring(2));
                                                     break;
                                                 case 'P':
-                                                    CurrentDoc = new PropertyDoc(CurrentType as TypeDoc) {
-                                                        Name = memberName.Substring(2)
-                                                    };
-                                                    break;
                                                 case 'F':
-                                                    CurrentDoc = new FieldDoc(CurrentType as TypeDoc) {
-                                                        Name = memberName.Substring(2)
-                                                    };
+                                                    if (CurrentType == null || !memberName.Contains(CurrentType.Name.Substring(2))) {
+                                                        string typename = memberName.GetTypeName();
+                                                        CurrentType = new TypeDoc(CurrentAssembly) { Name = typename };
+                                                        reflectedType = reflectedAssembly.GetType(typename);
+                                                    }
+
+                                                    // if type == p => add property documentation else => add field doc.
+
+                                                    CurrentDoc = type == 'P' ? (new PropertyDoc(CurrentType as TypeDoc) {
+                                                        Name = memberName.Substring(2),
+                                                        Type = (from pinfo in reflectedType.GetProperties()
+                                                                where pinfo.Name == memberName.GetMemberName()
+                                                                select pinfo.PropertyType).FirstOrDefault()
+                                                    } as BaseDoc)
+                                                        : (new FieldDoc(CurrentType as TypeDoc) {
+                                                        Name = memberName.Substring(2),
+                                                        Type = (from finfo in reflectedType.GetFields()
+                                                                where finfo.Name == memberName.GetMemberName()
+                                                                select finfo.FieldType).FirstOrDefault()
+                                                    } as BaseDoc);
                                                     break;
                                                 case 'M':
                                                     // check if the method is a method of the _current_ type, if it's not then it means the type of this method is not _documented_
                                                     // so we add an empty doc for it here
-                                                    // (probably should do so for properties/fields as well)
                                                     if (CurrentType == null || !memberName.Contains(CurrentType.Name.Substring(2))) {
                                                         string typename = memberName.GetTypeName();
                                                         CurrentType = new TypeDoc(CurrentAssembly) { Name = typename };
