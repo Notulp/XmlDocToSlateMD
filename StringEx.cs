@@ -2,11 +2,31 @@
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace XmlToSlateMD
 {
     public static class StringEx
     {
+        static Dictionary<string, string> AngleBracketsToHTMLSafe = new Dictionary<string, string>
+        {
+            {"<", "&lt;"},
+            {">", "&gt;"}
+        };
+
+        static Dictionary<string, string> BracketsToHTMLSafe = new Dictionary<string, string>
+        {
+            {"(", "&#40;"},
+            {")", "&#41;"}
+        };
+
+        static Dictionary<string, string> SquareBracketsToHTMLSafe = new Dictionary<string, string>
+        {
+            {"[", "&#91;"},
+            {"]", "&#92;"}
+        };
+
         public static string GetMemberName(this string methodOrPropOrFieldName)
         {
             if (!methodOrPropOrFieldName.Contains("("))
