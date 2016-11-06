@@ -109,16 +109,14 @@ namespace XmlToSlateMD
                                                     // so we add an empty doc for it here
                                                     // (probably should do so for properties/fields as well)
                                                     if (CurrentType == null || !memberName.Contains(CurrentType.Name.Substring(2))) {
-                                                        string typename = memberName.Substring(0,
-                                                                                               memberName.IndexOf("("));
-                                                        typename = typename.Substring(2, typename.LastIndexOf('.') - 2);
+                                                        string typename = memberName.GetTypeName();
                                                         CurrentType = new TypeDoc(CurrentAssembly) { Name = typename };
                                                         reflectedType = reflectedAssembly.GetType(typename);
                                                     }
 
                                                     reflectedMethodParams = new List<Type>();
 
-                                                    string methodname = Regex.Match(memberName, "\\.([#A-z]*)\\(").Groups[1].Captures.Join();
+                                                    string methodname = memberName.GetMemberName();
 
                                                     string paramtypes = Regex.Match(memberName, "\\(([\\.,A-z0-9])*\\)").Groups[1].Captures.Join();
 
