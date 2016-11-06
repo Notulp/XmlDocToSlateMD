@@ -206,9 +206,6 @@ namespace XmlToSlateMD
                                                     });
                                                 }
                                             break;
-                                        
-                                        case "v":
-                                            break;
                                         case "value":
                                             xml.Read();
                                             PreviousDoc["defaultValue"] = xml.Value;
