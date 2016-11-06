@@ -32,9 +32,11 @@ namespace XmlToSlateMD.Documentation
                 $"{Summary}{Environment.NewLine}{Environment.NewLine}" +
                 $"{codes}{Environment.NewLine}{Environment.NewLine}" +
                 $"### Return type: {ReturnType.Format()}{Environment.NewLine}{Environment.NewLine}" +
-                $"### Parameters:{Environment.NewLine}" +
-                ParameterDoc.Header +
-                $"{prms}";
+                (prms == ""
+                    ? ""
+                    : ($"### Parameters:{Environment.NewLine}" +
+                       ParameterDoc.Header +
+                       $"{prms}"));
         }
     }
 }

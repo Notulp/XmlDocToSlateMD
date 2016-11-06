@@ -27,9 +27,11 @@ namespace XmlToSlateMD.Documentation
             var prms = String.Join(Environment.NewLine, (from param in Params select param.ToString()).ToArray());
             return $"## {Name}{Environment.NewLine}{Environment.NewLine}" +
                 $"{Summary}{Environment.NewLine}{Environment.NewLine}" +
-                $"### Parameters:{Environment.NewLine}" +
-                ParameterDoc.Header+
-                $"{prms}";
+                (prms == ""
+                    ? ""
+                    : ($"### Parameters:{Environment.NewLine}" +
+                       ParameterDoc.Header +
+                       $"{prms}"));
         }
     }
 }
