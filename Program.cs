@@ -34,12 +34,13 @@ namespace XmlDocToSlateMD
         {
             try {
                 // load .dll files in the current directory to
-                foreach (var file in Directory.GetFiles(Environment.CurrentDirectory)) {
+                foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, "*", SearchOption.AllDirectories)) {
+                    Console.WriteLine(file);
                     if (file.ToLowerInvariant().EndsWith(".dll")) {
                         Assembly.LoadFile(file);
                     }
                 }
-                foreach (var file in Directory.GetFiles(Environment.CurrentDirectory)) {
+                foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, "*", SearchOption.AllDirectories)) {
                     if (file.ToLowerInvariant().EndsWith(".xml")) {
                         string xmlStr = File.ReadAllText(file);
 
