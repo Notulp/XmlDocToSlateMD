@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlToSlateMD", "XmlToSlateMD.csproj", "{1DEE3040-89F6-4321-9079-E91FD14B2EF7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlDocToSlateMD", "XmlDocToSlateMD.csproj", "{1DEE3040-89F6-4321-9079-E91FD14B2EF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
