@@ -24,7 +24,7 @@ namespace XmlDocToSlateMD
         static Dictionary<string, string> SquareBracketsToHTMLSafe = new Dictionary<string, string>
         {
             {"[", "&#91;"},
-            {"]", "&#92;"}
+            {"]", "&#93;"}
         };
 
         public static string GetMemberName(this string methodOrPropOrFieldName)
