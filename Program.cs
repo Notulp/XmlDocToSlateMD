@@ -86,6 +86,12 @@ namespace XmlDocToSlateMD
                                             case "member":
                                                 var memberName = xml["name"];
                                                 char type = memberName[0];
+                                                 
+                                                if (memberName.Contains("Hooks")) {
+                                                    PreviousDoc = null;
+                                                    break;
+                                                }
+                                                    
                                                 switch (type) {
                                                     case 'T':
                                                         CurrentDoc = new TypeDoc(CurrentAssembly);
@@ -175,7 +181,8 @@ namespace XmlDocToSlateMD
 
                                             case "summary":
                                                 xml.Read();
-                                                PreviousDoc["Summary"] = xml.Value.Trim();
+                                                if (PreviousDoc != null)
+                                                    PreviousDoc["Summary"] = xml.Value.Trim();
 
                                                 break;
                                             
