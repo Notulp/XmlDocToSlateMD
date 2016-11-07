@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace XmlToSlateMD
+namespace XmlDocToSlateMD
 {
     public static class TypeEx
     {

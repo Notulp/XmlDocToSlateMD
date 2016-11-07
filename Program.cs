@@ -6,9 +6,9 @@ using System.Linq;
 using System.Xml;
 using System.Reflection;
 
-using XmlToSlateMD.Documentation;
+using XmlDocToSlateMD.Documentation;
 
-namespace XmlToSlateMD
+namespace XmlDocToSlateMD
 {
     class MainClass
     {

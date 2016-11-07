@@ -1,4 +1,4 @@
-﻿namespace XmlToSlateMD
+﻿namespace XmlDocToSlateMD
 {
     using System;
     using System.Collections.Generic;

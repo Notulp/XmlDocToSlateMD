@@ -1,4 +1,4 @@
-﻿namespace XmlToSlateMD.Documentation
+﻿namespace XmlDocToSlateMD.Documentation
 {
     public class BaseDoc
     {

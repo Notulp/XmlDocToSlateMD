@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{1DEE3040-89F6-4321-9079-E91FD14B2EF7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>XmlToSlateMD</RootNamespace>
-    <AssemblyName>XmlToSlateMD</AssemblyName>
+    <RootNamespace>XmlDocToSlateMD</RootNamespace>
+    <AssemblyName>XmlDocToSlateMD</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">

@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace XmlToSlateMD
+namespace XmlDocToSlateMD
 {
     public static class StringEx
     {
