@@ -48,7 +48,7 @@ namespace XmlDocToSlateMD.Documentation
             }
             result += String.Join(Environment.NewLine, (from field in Fields select field.ToString()).ToArray()) + Environment.NewLine + Environment.NewLine;
             if (Properties.Count > 0) {
-                result += Environment.NewLine + "### Porpert" + (Properties.Count == 1 ? "y" : "ies") + ":" + Environment.NewLine + Environment.NewLine;
+                result += Environment.NewLine + "### Propert" + (Properties.Count == 1 ? "y" : "ies") + ":" + Environment.NewLine + Environment.NewLine;
                 result += ParameterDoc.Header;
             }
             result += String.Join(Environment.NewLine, (from property in Properties select property.ToString()).ToArray()) + Environment.NewLine;
