@@ -35,7 +35,6 @@ namespace XmlDocToSlateMD
             try {
                 // load .dll files in the current directory to
                 foreach (var file in Directory.GetFiles(Environment.CurrentDirectory, "*", SearchOption.AllDirectories)) {
-                    Console.WriteLine(file);
                     if (file.ToLowerInvariant().EndsWith(".dll")) {
                         Assembly.LoadFile(file);
                     }
@@ -226,7 +225,9 @@ namespace XmlDocToSlateMD
                                     }
                                 }
                             }
+                            #if DEBUG
                             Console.WriteLine("CurrentAssembly is: " + Environment.NewLine + CurrentAssembly);
+                            #endif
                             CurrentAssembly.ToFile();
                         }
                     }
